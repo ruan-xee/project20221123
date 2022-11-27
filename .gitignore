@@ -69,3 +69,4 @@ typings/
 /.idea/modules.xml
 /.idea/vcs.xml
 /src/its-cmp/package-lock.json
+/.idea/
