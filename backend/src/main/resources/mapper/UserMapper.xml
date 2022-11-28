@@ -43,4 +43,23 @@
         where
             id=#{id}
     </delete>
+
+    <select id="queryByPage" resultType="com.rxee.backend.entity.User">
+        select * from sys_user
+        <where>
+            <if test="username != null">
+                username like concat('%',#{username},'%')
+            </if>
+        </where>
+        limit #{pageNum},#{pageSize}
+    </select>
+
+    <select id="queryCount" resultType="integer" parameterType="string">
+        select count(*) from sys_user
+        <where>
+            <if test="username != null">
+                username like concat('%',#{username},'%')
+            </if>
+        </where>
+    </select>
 </mapper>

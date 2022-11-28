@@ -18,4 +18,8 @@ public interface UserMapper {
     int update(User user);
 
     int deleteById(User user);
+
+    List<User> queryByPage(Integer pageNum, Integer pageSize, String username);
+
+    int queryCount(String username);
 }

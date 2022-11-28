@@ -88,10 +88,10 @@
           <el-breadcrumb-item>用户管理</el-breadcrumb-item>
         </el-breadcrumb>
         <div class="pd-10">
-          <el-input style="width: 200px;" suffix-icon="el-icon-search" placeholder="请输入名称"></el-input>
+          <el-input style="width: 200px;" suffix-icon="el-icon-search" placeholder="请输入用户名" v-model="queryParam.username"></el-input>
           <el-input style="width: 200px;" suffix-icon="el-icon-message" placeholder="请输入邮箱" class="ml-5"></el-input>
           <el-input style="width: 200px;" suffix-icon="el-icon-position" placeholder="请输入地址" class="ml-5"></el-input>
-          <el-button class="ml-5" type="primary" @click="fnSearch">搜索</el-button>
+          <el-button class="ml-5" type="primary" @click="fnQueryByParam">搜索</el-button>
           <div style="margin: 10px 0;">
             <el-button type="primary">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
             <el-button type="danger">批量删除 <i class="el-icon-remove-outline"></i></el-button>
@@ -100,11 +100,17 @@
           </div>
         </div>
         <el-table :data="tableData" border stripe header-cell-class-name="headerBg">
-          <el-table-column prop="date" label="日期" width="200">
+          <el-table-column prop="id" label="ID" width="80">
           </el-table-column>
-          <el-table-column prop="name" label="姓名" width="200">
+          <el-table-column prop="username" label="用户名">
+          </el-table-column>
+          <el-table-column prop="nickname" label="昵称">
           </el-table-column>
           <el-table-column prop="address" label="地址">
+          </el-table-column>
+          <el-table-column prop="email" label="邮箱">
+          </el-table-column>
+          <el-table-column prop="create_time" label="创建日期">
           </el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
@@ -115,10 +121,13 @@
         </el-table>
         <div class="pd-10">
           <el-pagination
-              :page-sizes="[5, 10, 15, 20]"
-              :page-size="10"
+              :current-page="pagination.pageNum"
+              :page-sizes="[1, 2, 3, 4]"
+              :page-size="pagination.pageSize"
+              @size-change="handlerSizeChanged"
+              @current-change="handlerCurrentChanged"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="400">
+              :total="pagination.total">
           </el-pagination>
         </div>
       </el-main>
@@ -131,17 +140,24 @@
 export default {
   name: 'HomeView',
   data() {
-    const item = {
-      date: '2016-05-02',
-      name: '王小明',
-      address: '上海市普陀区金沙江路 1518 弄'
-    };
     return {
-      tableData: Array(10).fill(item),
+      tableData: [],
       collapseBtnClass: 'el-icon-s-fold',
       isCollapse: false,//收缩侧边栏标志
       sideWidth: 200,//侧边栏宽度
+      pagination:{
+        total: 0,
+        pageNum: 1,
+        pageSize: 2,
+      },
+      queryParam:{
+        username:"",
+      },
     }
+  },
+  created() {
+    //请求分页查询数据
+    this.fnQuery();
   },
   methods: {
     collapse(){
@@ -154,9 +170,25 @@ export default {
         this.collapseBtnClass = 'el-icon-s-fold';
       }
     },
-    fnSearch(){
-
-    }
+    fnQuery(){
+      //请求分页查询数据
+      fetch("http://localhost:8088/user/page?pageNum="+this.pagination.pageNum+"&pageSize="+this.pagination.pageSize+"&username="+this.queryParam.username).then(res=>res.json()).then(res=>{
+        this.tableData = res.users;
+        this.pagination.total = res.total;
+      })
+    },
+    fnQueryByParam(){
+      this.pagination.pageNum = 1;
+      this.fnQuery();
+    },
+    handlerSizeChanged(pageSize){
+      this.pagination.pageSize = pageSize;
+      this.fnQuery();
+    },
+    handlerCurrentChanged(pageNum){
+      this.pagination.pageNum = pageNum;
+      this.fnQuery();
+    },
   }
 }
 </script>

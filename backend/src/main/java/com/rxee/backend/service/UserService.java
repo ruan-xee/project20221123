@@ -28,4 +28,12 @@ public class UserService {
     public Integer delete(User user){
         return userMapper.deleteById(user);
     }
+
+    public List<User> queryByPage(Integer pageNum, Integer pageSize, String username) {
+        return userMapper.queryByPage(pageNum, pageSize, username);
+    }
+
+    public int queryTotalNum(String username){
+        return userMapper.queryCount(username);
+    }
 }
