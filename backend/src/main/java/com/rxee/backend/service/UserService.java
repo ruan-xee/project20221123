@@ -1,5 +1,6 @@
 package com.rxee.backend.service;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rxee.backend.entity.User;
 import com.rxee.backend.mapper.UserMapper;
 import org.springframework.stereotype.Service;
@@ -9,25 +10,42 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
-public class UserService {
+public class UserService extends ServiceImpl<UserMapper, User> {
     @Resource
     private UserMapper userMapper;
 
-    public Integer save(User user){
-        if (Objects.nonNull(user.getId())){
-            return userMapper.update(user);
-        } else {
-            return userMapper.insert(user);
-        }
+    public boolean save(User user){
+//        if (Objects.nonNull(user.getId())) {
+//            return updateById(user);//save为mybatis-plus提供的方法，表示保存数据
+//        } else {
+//            return save(user);
+//        }
+        return saveOrUpdate(user);
     }
 
     public List<User> queryAll(){
-        return userMapper.findAll();
+        return list();
     }
 
-    public Integer delete(User user){
-        return userMapper.deleteById(user);
+    public boolean delete(User user){
+        return removeById(user);
     }
+
+//    public Integer save(User user){
+//        if (Objects.nonNull(user.getId())){
+//            return userMapper.update(user);
+//        } else {
+//            return userMapper.insert(user);
+//        }
+//    }
+//
+//    public List<User> queryAll(){
+//        return userMapper.findAll();
+//    }
+
+//    public Integer delete(User user){
+//        return userMapper.deleteById(user);
+//    }
 
     public List<User> queryByPage(Integer pageNum, Integer pageSize, String username) {
         return userMapper.queryByPage(pageNum, pageSize, username);

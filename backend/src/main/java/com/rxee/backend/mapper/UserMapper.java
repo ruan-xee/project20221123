@@ -1,5 +1,6 @@
 package com.rxee.backend.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.rxee.backend.entity.User;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -8,8 +9,8 @@ import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
-@Mapper
-public interface UserMapper {
+//@Mapper
+public interface UserMapper extends BaseMapper<User> {
 
     List<User> findAll();
 
