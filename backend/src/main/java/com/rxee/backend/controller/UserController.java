@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("/user")
 public class UserController {
     @Resource
     private UserService userService;
@@ -23,12 +23,12 @@ public class UserController {
 
     @PostMapping("/add")
     public boolean addUser(@RequestBody User user){
-        return userService.save(user);
+        return userService.saveUser(user);
     }
 
-    @DeleteMapping("/del")
-    public boolean delUser(@RequestBody User user){
-        return userService.delete(user);
+    @PostMapping("/del")
+    public boolean delete(@RequestBody Integer id){
+        return userService.delUser(id);
     }
 
 //    @GetMapping("/page")
@@ -49,13 +49,14 @@ public class UserController {
                                    @RequestParam(defaultValue = "") String username,
                                    @RequestParam(defaultValue = "") String email,
                                    @RequestParam(defaultValue = "") String address){
-        IPage<User> page = new Page<>(pageNum, pageSize);
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
         if (!"".equals(username)) {userQueryWrapper.like("username", username);}
 //                        .and(w->w.like("email", email))
 //                        .and(w->w.like("address", address));
         if (!"".equals(address)) {userQueryWrapper.like("address", address);}
         if (!"".equals(email)) {userQueryWrapper.like("email", email);}
+        userQueryWrapper.orderByDesc("id");
+        IPage<User> page = new Page<>(pageNum, pageSize);
         return userService.page(page, userQueryWrapper);
     }
 }

@@ -14,7 +14,7 @@ public class UserService extends ServiceImpl<UserMapper, User> {
     @Resource
     private UserMapper userMapper;
 
-    public boolean save(User user){
+    public boolean saveUser(User user){
 //        if (Objects.nonNull(user.getId())) {
 //            return updateById(user);//save为mybatis-plus提供的方法，表示保存数据
 //        } else {
@@ -27,8 +27,8 @@ public class UserService extends ServiceImpl<UserMapper, User> {
         return list();
     }
 
-    public boolean delete(User user){
-        return removeById(user);
+    public boolean delUser(Integer id){
+        return removeById(id);
     }
 
 //    public Integer save(User user){
