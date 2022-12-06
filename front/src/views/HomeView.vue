@@ -95,12 +95,19 @@
           <el-button class="ml-5" type="danger" @click="fnReset">重置</el-button>
           <div style="margin: 10px 0;">
             <el-button type="primary" @click="fnAddUser">新增 <i class="el-icon-circle-plus-outline"></i></el-button>
-            <el-button type="danger">批量删除 <i class="el-icon-remove-outline"></i></el-button>
-            <el-button type="primary">导入 <i class="el-icon-bottom"></i></el-button>
+            <template>
+              <el-popconfirm title="确定删除？" confirm-button-type="danger" @confirm="fnMultiDel" class="ml-5">
+                <el-button slot="reference" type="danger" >批量删除<i class="el-icon-remove-outline"></i></el-button>
+              </el-popconfirm>
+            </template>
+<!--            <el-button type="danger" @click="fnMultiDel">批量删除 <i class="el-icon-remove-outline"></i></el-button>-->
+            <el-button type="primary" class="ml-5">导入 <i class="el-icon-bottom"></i></el-button>
             <el-button type="primary">导出 <i class="el-icon-top"></i></el-button>
           </div>
         </div>
-        <el-table :data="tableData" border stripe header-cell-class-name="headerBg">
+        <el-table :data="tableData" border stripe header-cell-class-name="headerBg" @selection-change="tableSeletionChange">
+          <el-table-column type="selection" width="55">
+          </el-table-column>
           <el-table-column prop="id" label="ID" width="80">
           </el-table-column>
           <el-table-column prop="username" label="用户名">
@@ -119,7 +126,7 @@
             <template slot-scope="scope">
               <el-button type="success" @click="fnEditItem(scope.row)">编辑 <i class="el-icon-edit"></i></el-button>
               <template>
-                <el-popconfirm title="确定删除？" confirm-button-type="danger" @confirm="fnDelete(scope.row.id)">
+                <el-popconfirm title="确定删除？" confirm-button-type="danger" @confirm="fnDelete(scope.row.id)" class="ml-5">
                   <el-button slot="reference" type="danger" >删除 <i class="el-icon-remove"></i></el-button>
                 </el-popconfirm>
               </template>
@@ -191,8 +198,9 @@ export default {
         dialogFormVisible:false,
       },
       form:{
-
+        //表单数据
       },
+      tableSelect:[],
     }
   },
   created() {
@@ -275,7 +283,7 @@ export default {
     },
     fnDelete(id){
       console.log(id);
-      this.request.post("/user/del",id).then(res=>{
+      this.request.delete("/user/del/"+id).then(res=>{
         if (res){
           this.$message.success("删除成功");
           this.fnReset();
@@ -283,6 +291,22 @@ export default {
           this.$message.warning("删除失败");
         }
       })
+    },
+    fnMultiDel(){
+      let ids = this.tableSelect.map(v=>v.id)
+      console.log(ids);
+      this.request.post("/user/del/batch",ids).then(res=>{
+        if (res){
+          this.$message.success("批量删除成功");
+          this.fnReset();
+        }else {
+          this.$message.warning("批量删除失败");
+        }
+      })
+    },
+    tableSeletionChange(val){
+      this.tableSelect = val;
+      console.log(this.tableSelect);
     }
   }
 }

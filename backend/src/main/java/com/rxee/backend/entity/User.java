@@ -1,28 +1,65 @@
 package com.rxee.backend.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.ToString;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author rxee
+ * @since 2022-12-06
+ */
+@TableName("sys_user")
 @Data
-@TableName(value = "sys_user")
-public class User {
-    @TableId(type = IdType.AUTO)//指定主键
-    private Integer id;
-    private String username;
-    @JsonIgnore
-    private String password;
-    private String nickname;
-    private String email;
-    private String address;
-    private String phone;
-    @TableField(value = "create_time")//指定数据库中的字段名称
-    private String createTime;
+@ToString
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+      @TableId(value = "id", type = IdType.AUTO)
+      private Integer id;
+
+      /**
+     * 用户名
+     */
+      private String username;
+
+      /**
+     * 密码
+     */
+      private String password;
+
+      /**
+     * 昵称
+     */
+      private String nickname;
+
+      /**
+     * 邮箱
+     */
+      private String email;
+
+      /**
+     * 手机号
+     */
+      private String phone;
+
+      /**
+     * 地址
+     */
+      private String address;
+
+      /**
+     * 创建时间
+     */
+      private LocalDateTime createTime;
 
 }
