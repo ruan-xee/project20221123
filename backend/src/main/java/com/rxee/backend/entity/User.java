@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author rxee
@@ -22,44 +22,49 @@ import java.time.LocalDateTime;
 @ToString
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-      @TableId(value = "id", type = IdType.AUTO)
-      private Integer id;
+  @TableId(value = "id", type = IdType.AUTO)
+  private Integer id;
 
-      /**
-     * 用户名
-     */
-      private String username;
+  /**
+   * 用户名
+   */
+  private String username;
 
-      /**
-     * 密码
-     */
-      private String password;
+  /**
+   * 密码
+   */
+  private String password;
 
-      /**
-     * 昵称
-     */
-      private String nickname;
+  /**
+   * 昵称
+   */
+  private String nickname;
 
-      /**
-     * 邮箱
-     */
-      private String email;
+  /**
+   * 邮箱
+   */
+  private String email;
 
-      /**
-     * 手机号
-     */
-      private String phone;
+  /**
+   * 手机号
+   */
+  private String phone;
 
-      /**
-     * 地址
-     */
-      private String address;
+  /**
+   * 地址
+   */
+  private String address;
 
-      /**
-     * 创建时间
-     */
-      private LocalDateTime createTime;
+  /**
+   * 创建时间
+   */
+  private LocalDateTime createTime;
+
+  /**
+   * 头像
+   */
+  private String portrait;
 
 }
