@@ -6,7 +6,7 @@
       <el-input size="medium" style="margin: 10px 0" prefix-icon="el-icon-lock" show-password v-model="user.password"></el-input>
       <div style="margin: 10px 0; text-align: right">
         <el-button type="primary" size="small" autocomplete="off" @click="login">登录</el-button>
-        <el-button type="warning" size="small" autocomplete="off">注册</el-button>
+        <el-button type="warning" size="small" autocomplete="off" @click="$router.push('/register')">注册</el-button>
       </div>
     </div>
   </div>
@@ -31,9 +31,10 @@ export default {
         return;
       }
       this.request.post("/login/into",this.user).then(data=>{
-        console.log(data);
-        if (data.ok){
+        if (data.code==="200"){
+          localStorage.setItem("user", JSON.stringify(data.obj));//存储用户信息到浏览器
           this.$router.push("/home");
+          this.$message.success("欢迎回来！"+data.obj.nickname);
         } else {
           this.$message.error(data.msg);
         }

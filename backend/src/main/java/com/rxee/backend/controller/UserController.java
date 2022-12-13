@@ -36,8 +36,8 @@ public class UserController {
     private IUserService userService;
 
     @PostMapping("/query")
-    public List<User> query(){
-        return userService.queryAll();
+    public ResultVo query(){
+        return ResultVo.success(userService.queryAll());
     }
 
     @PostMapping("/add")
