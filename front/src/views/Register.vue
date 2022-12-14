@@ -42,9 +42,8 @@ export default {
       }
       this.request.post("/login/register",this.user).then(data=>{
         if (data.code==="200"){
-          localStorage.setItem("user", JSON.stringify(data.obj));//存储用户信息到浏览器
-          this.$router.push("/home");
-          this.$message.success("欢迎回来！"+data.obj.nickname);
+          this.$router.push("/login");
+          this.$message.success("注册成功！请登录~");
         } else {
           this.$message.error(data.msg);
         }

@@ -20,7 +20,7 @@ public interface Constants {
      */
     String CODE_500 = "500";
     /**
-     * 其他业务异常
+     * 业务异常
      */
     String CODE_600 = "600";
 
