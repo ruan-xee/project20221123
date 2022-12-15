@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.InputStream;
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * <p>
@@ -38,6 +39,16 @@ public class UserController {
     @PostMapping("/query")
     public ResultVo query(){
         return ResultVo.success(userService.queryAll());
+    }
+
+    @PostMapping("/queryById")
+    public ResultVo queryById(Integer id){
+        User user = userService.queryById(id);
+        if (Objects.isNull(user)){
+            return ResultVo.fail(Constants.CODE_500, "查询个人信息失败！");
+        } else {
+            return ResultVo.success(user);
+        }
     }
 
     @PostMapping("/add")
@@ -141,5 +152,20 @@ public class UserController {
          */
         return userService.saveBatch(list) ? ResultVo.success():ResultVo.fail(Constants.CODE_500, "导入失败！");
     }
+
+    @PostMapping("/updateAndBackUser")
+    public ResultVo updateAndBackUser(@RequestBody User user){
+        if (!userService.updateById(user)){
+            return ResultVo.fail(Constants.CODE_500, "修改保存失败！请重试！");
+        } else {
+            User user1 = userService.queryById(user.getId());
+            if (Objects.isNull(user1)){
+                return ResultVo.fail(Constants.CODE_500, "查询个人信息失败！");
+            } else {
+                return ResultVo.success(user1);
+            }
+        }
+    }
+
 }
 

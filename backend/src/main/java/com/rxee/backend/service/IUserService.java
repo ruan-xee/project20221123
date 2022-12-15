@@ -17,6 +17,8 @@ public interface IUserService extends IService<User> {
 
     List<User> queryAll();
 
+    User queryById(Integer id);
+
     boolean saveUser(User user);
 
     boolean delUser(Integer id);

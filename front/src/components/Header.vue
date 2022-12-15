@@ -13,10 +13,12 @@
       <div style="display: inline-block">
         <img :src="user.portrait" alt=""
         style="width: 30px; border-radius: 50%; position: relative; top: 10px; right: 5px">
-        <span>{{user.nickname}}</span><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
+        <span>{{user.nickname}}</span><i class="el-icon-arrow-down" style="margin-left: 10px"></i>
       </div>
       <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item>个人信息</el-dropdown-item>
+        <el-dropdown-item>
+          <router-link to="/person">个人信息</router-link>
+        </el-dropdown-item>
         <el-dropdown-item>
           <span style="text-decoration: none" @click="logout">退出</span>
         </el-dropdown-item>

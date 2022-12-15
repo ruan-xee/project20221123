@@ -29,6 +29,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     }
 
     @Override
+    public User queryById(Integer id) {
+        return userMapper.selectById(id);
+    }
+
+    @Override
     public boolean saveUser(User user) {
         return saveOrUpdate(user);
     }

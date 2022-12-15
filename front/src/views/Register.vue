@@ -40,7 +40,7 @@ export default {
         this.$message.error("两次输入的密码不相同，请重试！");
         return;
       }
-      this.request.post("/login/register",this.user).then(data=>{
+      this.request.post("/login/regist",this.user).then(data=>{
         if (data.code==="200"){
           this.$router.push("/login");
           this.$message.success("注册成功！请登录~");

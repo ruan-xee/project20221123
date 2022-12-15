@@ -6,6 +6,7 @@ import Home from "@/views/Home";
 import store from "@/store";
 import Login from "@/views/Login";
 import Register from "@/views/Register";
+import Person from "@/views/Person";
 
 Vue.use(VueRouter)
 
@@ -14,10 +15,11 @@ const routes = [
     path: '/',
     name: '框架',
     component: Manage,
-    redirect:"/login",
+    redirect:"/home",
     children:[
       {path:'home', name:'首页', component: Home},
       {path:'user', name:'用户管理', component: User},
+      {path:'person', name:'个人信息', component: Person},
     ],
   },
   {
@@ -30,6 +32,7 @@ const routes = [
     name: 'Register',
     component: Register,
   },
+
   {
     path: '/about',
     name: 'about',
