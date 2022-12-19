@@ -1,4 +1,5 @@
 import axios from 'axios'
+import {Message} from "element-ui";
 
 const request = axios.create({
     baseURL: 'http://localhost:8088',  // 注意！！ 这里是全局统一加上了 '/api' 前缀，也就是说所有接口都会加上'/api'前缀在，页面里面写接口的时候就不要加 '/api'了，否则会出现2个'/api'，类似 '/api/api/user'这样的报错，切记！！！
@@ -33,6 +34,13 @@ request.interceptors.response.use(
         if (typeof res === 'string') {
             res = res ? JSON.parse(res) : res
         }
+        //当权限验证不通过时给出提示
+        if(res.code === '401'){
+            Message({
+                message: res.msg,
+                type: "error"
+            })
+        };
         return res;
     },
     error => {

@@ -10,10 +10,13 @@ import store from "@/store";
 Vue.config.productionTip = false
 
 Vue.use(ElementUI, {size: "mini"});
-Vue.prototype.request = request
+Vue.prototype.request = request;
 
 new Vue({
   router,
   store,
-  render: h => h(App)
+  render: h => h(App),
+  beforeCreate() {
+    Vue.prototype.$bus = this;
+  }
 }).$mount('#app')

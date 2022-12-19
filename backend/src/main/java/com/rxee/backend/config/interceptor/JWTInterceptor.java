@@ -1,4 +1,4 @@
-package com.rxee.backend.common.interceptor;
+package com.rxee.backend.config.interceptor;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -9,6 +9,7 @@ import com.rxee.backend.common.Constants;
 import com.rxee.backend.entity.User;
 import com.rxee.backend.exception.ServiceException;
 import com.rxee.backend.service.IUserService;
+import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 

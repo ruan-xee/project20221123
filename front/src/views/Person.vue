@@ -39,6 +39,7 @@ export default {
         if (res.code === "200"){
           this.$message.success("保存成功");
           localStorage.setItem("user", JSON.stringify(res.obj));//存储用户信息到浏览器
+          this.$bus.$emit('updateUsername','');
           this.$router.push("/home");
         } else {
           this.$message.warning(res.msg);
@@ -46,6 +47,7 @@ export default {
       })
     },
   },
+
 }
 </script>
 
