@@ -49,6 +49,7 @@ export default {
     logout(){
       this.$router.push("/login");
       localStorage.removeItem("user");//清除缓存
+      localStorage.removeItem("token");//清除缓存
       this.$message.success("退出成功！");
     },
   },

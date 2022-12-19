@@ -31,10 +31,12 @@ export default {
         return;
       }
       this.request.post("/login/into",this.user).then(data=>{
+        console.log(data);
         if (data.code==="200"){
-          localStorage.setItem("user", JSON.stringify(data.obj));//存储用户信息到浏览器
+          localStorage.setItem("user", JSON.stringify(data.obj.user));//存储用户信息到浏览器
+          localStorage.setItem("token", JSON.stringify(data.obj.token));//存储用户信息到浏览器
           this.$router.push("/home");
-          this.$message.success("欢迎回来！"+data.obj.nickname);
+          this.$message.success("欢迎回来！"+data.obj.user.nickname);
         } else {
           this.$message.error(data.msg);
         }

@@ -6,6 +6,8 @@ import com.rxee.backend.dto.RegisterDto;
 import com.rxee.backend.entity.User;
 import com.rxee.backend.exception.ServiceException;
 import com.rxee.backend.service.ILoginService;
+import com.rxee.backend.utils.TokenUtils;
+import com.rxee.backend.vo.LoginVo;
 import com.rxee.backend.vo.ResultVo;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,7 +26,8 @@ public class LoginController {
     @PostMapping("/into")
     public ResultVo loginInto(@RequestBody LoginDto loginDto){
         User user = loginService.loginInto(loginDto);
-        return ResultVo.success(user);
+        String token = TokenUtils.getToken(user.getId().toString(), user.getPassword());
+        return ResultVo.success(new LoginVo(user, token));
     }
 
     @PostMapping("/regist")
