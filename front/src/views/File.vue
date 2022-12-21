@@ -3,14 +3,17 @@
     <div style="margin: 10px 0;">
       <el-input style="width: 200px;" suffix-icon="el-icon-tickets" placeholder="请输入文件名" v-model="queryParam.name" class="ml-5"></el-input>
       <el-button class="ml-5" type="primary" @click="fnQueryByParam">搜索</el-button>
-      <el-upload action="http://localhost:8088/file/upload" :show-file-list="false" :onSuccess="fnImportSuccess" style="display: inline-block">
-        <el-button type="primary" class="ml-5">上传文件(不超过1M) <i class="el-icon-top"></i></el-button>
-      </el-upload>
-      <template>
-        <el-popconfirm title="确定删除？" confirm-button-type="danger" @confirm="fnMultiDel" class="ml-5">
-          <el-button slot="reference" type="danger" >批量删除<i class="el-icon-remove-outline"></i></el-button>
-        </el-popconfirm>
-      </template>
+      <el-button class="ml-5" type="danger" @click="fnReset">重置</el-button>
+      <div style="margin: 10px 0;">
+        <el-upload action="http://localhost:8088/file/upload" :show-file-list="false" :onSuccess="fnImportSuccess" style="display: inline-block">
+          <el-button type="primary" class="ml-5">上传文件(不超过1M) <i class="el-icon-top"></i></el-button>
+        </el-upload>
+        <template>
+          <el-popconfirm title="确定删除？" confirm-button-type="danger" @confirm="fnMultiDel" class="ml-5">
+            <el-button slot="reference" type="danger" >批量删除 <i class="el-icon-remove-outline"></i></el-button>
+          </el-popconfirm>
+        </template>
+      </div>
     </div>
     <el-table :data="tableData" border stripe header-cell-class-name="headerBg" @selection-change="tableSelectionChange">
       <el-table-column type="selection" width="55"></el-table-column>
@@ -20,8 +23,10 @@
       <el-table-column prop="size" label="文件大小(KB)"></el-table-column>
       <el-table-column prop="url" label="下载">
         <template slot-scope="scope">
-          <el-button v-show="scope.row.enable" type="primary" @click="download(scope.row)">下载</el-button>
-          <el-button v-show="!scope.row.enable" type="info" @click="download(scope.row)">下载</el-button>
+          <div>
+            <el-button v-if="scope.row.enable" type="primary" @click="download(scope.row)">下载</el-button>
+            <el-button v-if="!scope.row.enable" type="info" @click="download(scope.row)">下载</el-button>
+          </div>
         </template>
       </el-table-column>
       <el-table-column label="允许下载">

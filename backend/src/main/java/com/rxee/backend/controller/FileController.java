@@ -37,7 +37,10 @@ public class FileController {
     public ResultVo uploadFile(@RequestParam MultipartFile file){
         String originalFilename = file.getOriginalFilename();
         String type = FileUtil.extName(originalFilename);
-        long size = file.getSize();
+        long size = file.getSize()/1024;
+        if(size > 1024){
+            return ResultVo.fail(Constants.CODE_400, "文件不能超过1M");
+        }
         //存储到磁盘
         File parentFile = new File(uploadPath);
         if (!parentFile.exists()){
@@ -62,7 +65,7 @@ public class FileController {
 
         //存储数据库
         com.rxee.backend.entity.File filemodel = new com.rxee.backend.entity.File();
-        filemodel.setSize(size/1024);
+        filemodel.setSize(size);
         filemodel.setType(type);
         filemodel.setName(originalFilename);
         filemodel.setUrl(url);
