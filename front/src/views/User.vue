@@ -20,7 +20,7 @@
         <el-button type="primary" @click="fnExport" class="ml-5">导出 <i class="el-icon-top"></i></el-button>
       </div>
     </div>
-    <el-table :data="tableData" border stripe header-cell-class-name="headerBg" @selection-change="tableSeletionChange">
+    <el-table :data="tableData" border stripe header-cell-class-name="headerBg" @selection-change="tableSelectionChange">
       <el-table-column type="selection" width="55">
       </el-table-column>
       <el-table-column prop="id" label="ID" width="80">
@@ -205,7 +205,7 @@ export default {
         }
       })
     },
-    tableSeletionChange(val){
+    tableSelectionChange(val){
       this.tableSelect = val;
     },
     fnExport(){

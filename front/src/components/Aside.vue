@@ -23,6 +23,9 @@
       <el-menu-item index="/user">
         <i class="el-icon-user"></i><span>用户管理</span>
       </el-menu-item>
+      <el-menu-item index="/file">
+        <i class="el-icon-folder"></i><span>文件管理</span>
+      </el-menu-item>
       <el-menu-item index="2-2">
         <i class="el-icon-key"></i><span>权限管理</span>
       </el-menu-item>
