@@ -22,8 +22,7 @@ export default {
     }
   },
   mounted() {
-
-    let option = {
+    var option = {
       xAxis: {
         type: 'category',
         data: [],
@@ -42,7 +41,17 @@ export default {
         }
       ]
     };
-    let option2 = {
+    var chartDom = document.getElementById('main');
+    var myChart = echarts.init(chartDom);
+    this.request.get("/echarts/example").then(res=>{
+      if (res.code === '200'){
+        option.xAxis.data = res.obj.x;
+        option.series[0].data = res.obj.y;
+        option.series[1].data = res.obj.y;
+        myChart.setOption(option);
+      }
+    })
+    var option2 = {
       title: {
         text: 'Referer of a Website',
         subtext: 'Fake Data',
@@ -77,19 +86,8 @@ export default {
         }
       ]
     };
-    let chartDom = document.getElementById('main');
-    let chartDom2 = document.getElementById('pie');
-    let myChart = echarts.init(chartDom);
-    let myChart2 = echarts.init(chartDom2);
-    this.request.get("/echarts/example").then(res=>{
-      console.log(res);
-      if (res.code === '200'){
-        option.xAxis.data = res.obj.x;
-        option.series[0].data = res.obj.y;
-        option.series[1].data = res.obj.y;
-      }
-    })
-    myChart.setOption(option);
+    var chartDom2 = document.getElementById('pie');
+    var myChart2 = echarts.init(chartDom2);
     myChart2.setOption(option2);
   },
 }
