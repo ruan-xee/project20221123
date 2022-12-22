@@ -10,7 +10,7 @@
         <i v-else class="el-icon-plus avatar-uploader-icon"></i>
       </el-upload>
       <el-form-item label="用户名">
-        <el-input v-model="form.username" autocomplete="off"></el-input>
+        <el-input v-model="form.username" disabled autocomplete="off"></el-input>
       </el-form-item>
       <el-form-item label="昵称">
         <el-input v-model="form.nickname" autocomplete="off"></el-input>
