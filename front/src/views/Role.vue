@@ -24,6 +24,7 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
+          <el-button type="info" @click="fnSelectMenu(scope.row.id)">分配菜单 <i class="el-icon-menu"></i></el-button>
           <el-button type="success" @click="fnEditItem(scope.row)">编辑 <i class="el-icon-edit"></i></el-button>
           <template>
             <el-popconfirm title="确定删除？" confirm-button-type="danger" @confirm="fnDelete(scope.row.id)" class="ml-5">
@@ -62,6 +63,21 @@
         <el-button type="primary" @click="fnSaveUser">确 定</el-button>
       </div>
     </el-dialog>
+
+    <!-- Form -->
+    <el-dialog title="菜单分配" :visible.sync="flag.menuDialogVisible" width="20%">
+      <el-tree
+        :data="menuData"
+        show-checkbox
+        @check-change="handleCheckChange"
+      >
+
+      </el-tree>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="flag.menuDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -71,6 +87,27 @@ export default {
   data(){
     return{
       tableData: [],
+      menuData:[{
+        id:1,
+        label:'一级1',
+        children:[{
+          id:4,
+          label:'二级1-1',
+          children:[{
+            id:9,
+            label:'三级1-1-1',
+          },{
+            id:10,
+            label:'三级1-1-2',
+          }]
+        },{
+          id:5,
+          label:'二级1-2',
+        }]
+      },{
+        id:2,
+        label: '一级2',
+      }],
       pagination:{
         total: 0,
         pageNum: 1,
@@ -81,6 +118,7 @@ export default {
       },
       flag:{
         dialogFormVisible:false,
+        menuDialogVisible:false,
       },
       form:{
         //表单数据
@@ -175,6 +213,12 @@ export default {
     tableSelectionChange(val){
       this.tableSelect = val;
     },
+    fnSelectMenu(id){
+      this.flag.menuDialogVisible = true;
+    },
+    handleCheckChange(data, checked, indeterminate){
+      console.log(data, checked, indeterminate)
+    }
   }
 }
 </script>
