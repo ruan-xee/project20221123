@@ -3,9 +3,12 @@ package com.rxee.backend.entity;
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
 @TableName("sys_file")
-public class File {
+public class File implements Serializable {
+    private static final long serialVersionUID = 1L;
     @TableId(type = IdType.AUTO)
     private Integer id;
     private String name;

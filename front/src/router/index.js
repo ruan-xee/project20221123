@@ -8,6 +8,8 @@ import Login from "@/views/Login";
 import Register from "@/views/Register";
 import Person from "@/views/Person";
 import File from "@/views/File";
+import Role from "@/views/Role";
+import Menu from "@/views/Menu";
 
 Vue.use(VueRouter)
 
@@ -20,6 +22,8 @@ const routes = [
     children:[
       {path:'home', name:'首页', component: Home},
       {path:'user', name:'用户管理', component: User},
+      {path:'role', name:'角色管理', component: Role},
+      {path:'menu', name:'菜单管理', component: Menu},
       {path:'person', name:'个人信息', component: Person},
       {path:'file', name:'文件管理', component: File},
     ],
