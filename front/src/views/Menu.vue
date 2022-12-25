@@ -13,7 +13,7 @@
         </template>
       </div>
     </div>
-    <el-table :data="tableData" border stripe header-cell-class-name="headerBg" @selection-change="tableSelectionChange">
+    <el-table :data="tableData" border stripe header-cell-class-name="headerBg" row-key="id" default-expand-all @selection-change="tableSelectionChange">
       <el-table-column type="selection" width="50">
       </el-table-column>
       <el-table-column prop="id" label="ID" width="50">

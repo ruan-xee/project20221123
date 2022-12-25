@@ -67,9 +67,9 @@
     <!-- Form -->
     <el-dialog title="菜单分配" :visible.sync="flag.menuDialogVisible" width="20%">
       <el-tree
-        :data="menuData"
-        show-checkbox
-        @check-change="handleCheckChange"
+          :data="menuData"
+          show-checkbox
+          @check-change="handleCheckChange"
       >
 
       </el-tree>
@@ -89,24 +89,28 @@ export default {
       tableData: [],
       menuData:[{
         id:1,
-        label:'一级1',
-        children:[{
-          id:4,
-          label:'二级1-1',
-          children:[{
-            id:9,
-            label:'三级1-1-1',
-          },{
-            id:10,
-            label:'三级1-1-2',
-          }]
-        },{
-          id:5,
-          label:'二级1-2',
-        }]
-      },{
+        label:'主页',
+      },
+      {
         id:2,
-        label: '一级2',
+        label: '系统管理',
+        children:[
+        {
+          id:3,
+          label:'用户管理'
+        },
+        {
+          id:4,
+          label:'文件管理',
+        },
+        {
+          id:5,
+          label:'菜单管理',
+        },
+        {
+          id:6,
+          label:'角色管理',
+        }]
       }],
       pagination:{
         total: 0,
