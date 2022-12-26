@@ -16,8 +16,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu>  implements I
     MenuMapper menuMapper;
 
     @Override
-    public List<Menu> queryAll() {
-        return menuMapper.selectList(new QueryWrapper<>());
+    public List<Menu> queryAll(QueryWrapper<Menu> queryWrapper) {
+        return menuMapper.selectList(queryWrapper);
     }
 
     @Override

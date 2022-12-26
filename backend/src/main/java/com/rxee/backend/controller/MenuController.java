@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/menu")
@@ -19,9 +20,18 @@ public class MenuController {
     @Resource
     IMenuService menuService;
 
-    @PostMapping("/query")
-    public ResultVo query(){
-        return ResultVo.success(menuService.queryAll());
+    @GetMapping("/query")
+    public ResultVo queryAll(@RequestParam(defaultValue = "") String name){
+        QueryWrapper<Menu> menuQueryWrapper = new QueryWrapper<>();
+        if (!"".equals(name)) {menuQueryWrapper.like("name", name);}
+        //查询所有数据
+        List<Menu> menus = menuService.queryAll(menuQueryWrapper);
+        //找出pid为null的一级菜单
+        List<Menu> parentNode = menus.stream().filter(menu -> menu.getPid() == null).collect(Collectors.toList());
+        for (Menu menu: parentNode) {
+            menu.setChildren(menus.stream().filter(m -> menu.getId().equals(m.getPid())).collect(Collectors.toList()));
+        }
+        return ResultVo.success(parentNode);
     }
 
     @PostMapping("/queryById")

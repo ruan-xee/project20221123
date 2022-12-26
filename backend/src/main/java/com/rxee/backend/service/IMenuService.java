@@ -1,12 +1,13 @@
 package com.rxee.backend.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rxee.backend.entity.Menu;
 
 import java.util.List;
 
 public interface IMenuService extends IService<Menu> {
-    List<Menu> queryAll();
+    List<Menu> queryAll(QueryWrapper<Menu> queryWrapper);
 
     Menu queryById(Integer id);
 
