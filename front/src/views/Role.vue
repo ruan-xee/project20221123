@@ -67,6 +67,7 @@
     <!-- Form -->
     <el-dialog title="菜单分配" :visible.sync="flag.menuDialogVisible" width="20%">
       <el-tree
+          :props="props"
           :data="menuData"
           show-checkbox
           @check-change="handleCheckChange"
@@ -87,31 +88,10 @@ export default {
   data(){
     return{
       tableData: [],
-      menuData:[{
-        id:1,
-        label:'主页',
+      menuData:[],
+      props:{
+        label: 'name'
       },
-      {
-        id:2,
-        label: '系统管理',
-        children:[
-        {
-          id:3,
-          label:'用户管理'
-        },
-        {
-          id:4,
-          label:'文件管理',
-        },
-        {
-          id:5,
-          label:'菜单管理',
-        },
-        {
-          id:6,
-          label:'角色管理',
-        }]
-      }],
       pagination:{
         total: 0,
         pageNum: 1,
@@ -218,6 +198,11 @@ export default {
       this.tableSelect = val;
     },
     fnSelectMenu(id){
+      //请求菜单数据
+      this.request.get("/menu/query").then(res=>{
+        if (res.code==="200"){
+          this.menuData = res.obj;
+        }})
       this.flag.menuDialogVisible = true;
     },
     handleCheckChange(data, checked, indeterminate){

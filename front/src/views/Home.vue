@@ -146,6 +146,8 @@ export default {
           {name:"第四季度", value:res.obj.y[3]},
         ]
         myChart2.setOption(option2);
+      } else if (res.code === '401'){
+        this.$router.push("/login");
       }
     })
 
