@@ -132,8 +132,12 @@ export default {
           createTime:this.queryParam.createTime,
         }
       }).then(res=>{
+        if(res.code==="200"){
         this.tableData = res.obj.records;
-        this.pagination.total = res.obj.total;})
+        this.pagination.total = res.obj.total;
+        }else if (res.code === "401"){
+          this.$router.push("/login");
+        }})
     },
     fnQueryByParam(){
       this.pagination.pageNum = 1;

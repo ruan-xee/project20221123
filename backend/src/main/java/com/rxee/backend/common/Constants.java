@@ -24,4 +24,11 @@ public interface Constants {
      */
     String CODE_600 = "600";
 
+
+    //字典类型
+    /**
+     * 字典类型：图标
+     */
+    String DICT_TYPE_ICON = "icon";
+
 }

@@ -88,8 +88,13 @@ export default {
           name:this.queryParam.name,
         }
       }).then(res=>{
-        this.tableData = res.obj.records;
-        this.pagination.total = res.obj.total;})
+        if (res.code === "200"){
+          this.tableData = res.obj.records;
+          this.pagination.total = res.obj.total;
+        }else if (res.code === "401"){
+          this.$router.push("/login");
+        }
+      })
     },
     fnQueryByParam(){
       this.pagination.pageNum = 1;

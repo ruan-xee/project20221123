@@ -25,7 +25,10 @@
       </el-table-column>
       <el-table-column prop="path" label="路径">
       </el-table-column>
-      <el-table-column prop="icon" label="图标">
+      <el-table-column label="图标">
+        <template slot-scope="scope">
+          <i :class="scope.row.icon"></i>
+        </template>
       </el-table-column>
       <el-table-column prop="description" label="描述">
       </el-table-column>
@@ -57,7 +60,11 @@
           <el-input v-model="form.path" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="图标">
-          <el-input v-model="form.icon" autocomplete="off"></el-input>
+          <el-select clearable v-model="form.icon" placeholder="请选择" style="width: 100%">
+            <el-option v-for="item in icons" :key="item.name" :label="item.name" :value="item.value">
+              <i :class="item.value"> {{item.name}}</i>
+            </el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="描述">
           <el-input v-model="form.description" autocomplete="off"></el-input>
@@ -87,6 +94,7 @@ export default {
         //表单数据
       },
       tableSelect:[],
+      icons:[],
     }
   },
   created() {
@@ -98,14 +106,21 @@ export default {
       this.request.get("/menu/query",{name: this.queryParam.name}).then(res=>{
         this.tableData = res.obj;})
     },
-
+    fnGetIcons(){
+      this.request.get("/dict/icons").then(res=>{
+        if (res.code==="200"){
+          this.icons = res.obj;
+        }
+      })
+    },
     fnReset(){
       this.queryParam.name="";
       this.fnQuery();
     },
     fnAddUser(){
-      this.flag.dialogFormVisible=true;
       this.form={};
+      this.fnGetIcons();
+      this.flag.dialogFormVisible=true;
     },
     fnSaveUser(){
       if(this.form.id === undefined){
@@ -132,6 +147,7 @@ export default {
     },
     fnEditItem(data){
       this.form = {...data};
+      this.fnGetIcons();
       this.flag.dialogFormVisible = true;
     },
     fnDelete(id){
@@ -161,7 +177,9 @@ export default {
     fnAddChild(pid){
       this.form = {pid};
       this.flag.dialogFormVisible = true;
-    }
+    },
+  },
+  watch:{
   }
 }
 </script>

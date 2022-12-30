@@ -70,9 +70,12 @@
           :props="props"
           :data="menuData"
           show-checkbox
-          @check-change="handleCheckChange"
-      >
-
+          :default-expanded-key="tree.expands"
+          :default-checked-keys="tree.checks"
+          @check-change="handleCheckChange">
+        <span class="custom-tree-node" slot-scope="{node, data}">
+          <span><i :class="data.icon"></i> {{data.name}}</span>
+        </span>
       </el-tree>
       <div slot="footer" class="dialog-footer">
         <el-button @click="flag.menuDialogVisible = false">取 消</el-button>
@@ -100,6 +103,10 @@ export default {
       queryParam:{
         name:"",
       },
+      tree:{
+        expands:[],
+        checks:[],
+      },
       flag:{
         dialogFormVisible:false,
         menuDialogVisible:false,
@@ -123,8 +130,12 @@ export default {
           name:this.queryParam.name,
         }
       }).then(res=>{
-        this.tableData = res.obj.records;
-        this.pagination.total = res.obj.total;})
+        if (res.code === "200"){
+          this.tableData = res.obj.records;
+          this.pagination.total = res.obj.total;
+        }else if (res.code === '401'){
+          this.$router.push("/login");
+        }})
     },
     fnQueryByParam(){
       this.pagination.pageNum = 1;
