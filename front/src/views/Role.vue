@@ -20,6 +20,8 @@
       </el-table-column>
       <el-table-column prop="name" label="用户名">
       </el-table-column>
+      <el-table-column prop="flag" label="唯一标识">
+      </el-table-column>
       <el-table-column prop="description" label="描述">
       </el-table-column>
       <el-table-column label="操作">
@@ -54,6 +56,9 @@
         <el-form-item label="用户名">
           <el-input v-model="form.name" autocomplete="off"></el-input>
         </el-form-item>
+        <el-form-item label="唯一标识">
+          <el-input v-model="form.flag" autocomplete="off"></el-input>
+        </el-form-item>
         <el-form-item label="描述">
           <el-input v-model="form.description" autocomplete="off"></el-input>
         </el-form-item>
@@ -70,16 +75,17 @@
           :props="props"
           :data="menuData"
           show-checkbox
-          :default-expanded-key="tree.expands"
-          :default-checked-keys="tree.checks"
-          @check-change="handleCheckChange">
+          node-key="id"
+          ref="tree"
+          :default-expanded-keys="tree.expands"
+          :default-checked-keys="tree.checks">
         <span class="custom-tree-node" slot-scope="{node, data}">
           <span><i :class="data.icon"></i> {{data.name}}</span>
         </span>
       </el-tree>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="flag.menuDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="">确 定</el-button>
+        <el-button @click="closeDialog">取 消</el-button>
+        <el-button type="primary" @click="setRole2Menu">确 定</el-button>
       </div>
     </el-dialog>
   </div>
@@ -115,6 +121,7 @@ export default {
         //表单数据
       },
       tableSelect:[],
+      roleId: 0,
     }
   },
   created() {
@@ -208,17 +215,38 @@ export default {
     tableSelectionChange(val){
       this.tableSelect = val;
     },
-    fnSelectMenu(id){
+    closeDialog(){
+      this.tree.checks = [];
+      this.flag.menuDialogVisible = false;
+    },
+    fnSelectMenu(roleId){
       //请求菜单数据
       this.request.get("/menu/query").then(res=>{
         if (res.code==="200"){
           this.menuData = res.obj;
+          this.tree.expands = this.menuData.map(value => value.id)
         }})
+
+      //请求勾选项数据
+      this.request.get("/r2m/"+roleId).then(res=>{
+        if (res.code==="200"){
+          console.log(res.obj);
+          this.tree.checks = res.obj;
+        }})
+      this.roleId = roleId;
       this.flag.menuDialogVisible = true;
     },
-    handleCheckChange(data, checked, indeterminate){
-      console.log(data, checked, indeterminate)
-    }
+    setRole2Menu(){
+      this.request.post("/r2m/"+this.roleId, this.$refs.tree.getCheckedKeys()).then(res=>{
+        if (res.code==='200'){
+          this.$message.success("修改成功~");
+          this.tree.checks = [];
+          this.flag.menuDialogVisible = false;
+        } else {
+          this.$message.error(res.msg);
+        }
+      })
+    },
   }
 }
 </script>

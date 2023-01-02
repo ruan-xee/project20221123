@@ -69,4 +69,9 @@ public class User implements Serializable {
    */
   private String portrait;
 
+  /**
+   * 角色
+   */
+  private String role;
+
 }

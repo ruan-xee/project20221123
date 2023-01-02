@@ -27,6 +27,8 @@
       </el-table-column>
       <el-table-column prop="username" label="用户名">
       </el-table-column>
+      <el-table-column prop="role" label="角色">
+      </el-table-column>
       <el-table-column prop="nickname" label="昵称">
       </el-table-column>
       <el-table-column prop="address" label="地址">
@@ -64,6 +66,11 @@
       <el-form label-width="80px">
         <el-form-item label="用户名">
           <el-input v-model="form.username" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="角色">
+          <el-select clearable v-model="form.role" placeholder="请选择角色" style="width: 100%">
+            <el-option v-for="item in roles" :key="item.name" :label="item.name" :value="item.flag"></el-option>
+          </el-select>
         </el-form-item>
         <el-form-item label="昵称">
           <el-input v-model="form.nickname" autocomplete="off"></el-input>
@@ -109,11 +116,15 @@ export default {
         //表单数据
       },
       tableSelect:[],
+      roles:[],
     }
   },
   created() {
     //请求分页查询数据
     this.fnQuery();
+    this.request.post("/role/query").then(res=>{
+      if (res.code ==='200') {this.roles = res.obj;}
+    })
   },
   methods:{
     fnQuery(){
