@@ -24,14 +24,9 @@ public class MenuController {
     public ResultVo queryAll(@RequestParam(defaultValue = "") String name){
         QueryWrapper<Menu> menuQueryWrapper = new QueryWrapper<>();
         if (!"".equals(name)) {menuQueryWrapper.like("name", name);}
+
         //查询所有数据
-        List<Menu> menus = menuService.queryAll(menuQueryWrapper);
-        //找出pid为null的一级菜单
-        List<Menu> parentNode = menus.stream().filter(menu -> menu.getPid() == null).collect(Collectors.toList());
-        for (Menu menu: parentNode) {
-            menu.setChildren(menus.stream().filter(m -> menu.getId().equals(m.getPid())).collect(Collectors.toList()));
-        }
-        return ResultVo.success(parentNode);
+        return ResultVo.success(menuService.queryMenus(menuQueryWrapper));
     }
 
     @PostMapping("/queryById")

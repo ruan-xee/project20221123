@@ -7,7 +7,7 @@ import com.rxee.backend.entity.Menu;
 import java.util.List;
 
 public interface IMenuService extends IService<Menu> {
-    List<Menu> queryAll(QueryWrapper<Menu> queryWrapper);
+    List<Menu> queryMenus(QueryWrapper<Menu> queryWrapper);
 
     Menu queryById(Integer id);
 

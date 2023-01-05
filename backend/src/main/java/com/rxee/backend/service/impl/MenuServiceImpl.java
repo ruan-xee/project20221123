@@ -5,10 +5,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rxee.backend.entity.Menu;
 import com.rxee.backend.mapper.MenuMapper;
 import com.rxee.backend.service.IMenuService;
+import com.rxee.backend.vo.ResultVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu>  implements IMenuService {
@@ -16,8 +18,14 @@ public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu>  implements I
     MenuMapper menuMapper;
 
     @Override
-    public List<Menu> queryAll(QueryWrapper<Menu> queryWrapper) {
-        return menuMapper.selectList(queryWrapper);
+    public List<Menu> queryMenus(QueryWrapper<Menu> queryWrapper) {
+        List<Menu> menus = menuMapper.selectList(queryWrapper);
+        //找出pid为null的一级菜单
+        List<Menu> parentNode = menus.stream().filter(menu -> menu.getPid() == null).collect(Collectors.toList());
+        for (Menu menu: parentNode) {
+            menu.setChildren(menus.stream().filter(m -> menu.getId().equals(m.getPid())).collect(Collectors.toList()));
+        }
+        return parentNode;
     }
 
     @Override

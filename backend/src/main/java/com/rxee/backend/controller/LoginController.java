@@ -73,7 +73,7 @@ public class LoginController {
         //获取该角色权限下的菜单
         List<Integer> menuIds = role2MenuService.getMenuIds(roleId);
         QueryWrapper<Menu> wrapper = new QueryWrapper<>();
-        List<Menu> menus = menuService.queryAll(wrapper);
+        List<Menu> menus = menuService.queryMenus(wrapper);
 
         List<Menu> roleMenus = new ArrayList<>();
 
@@ -82,7 +82,7 @@ public class LoginController {
                 roleMenus.add(menu);
             }
             List<Menu> children = menu.getChildren();
-            children.removeIf(child -> menuIds.contains(child.getId()));
+            if(Objects.nonNull(children)) {children.removeIf(child -> !menuIds.contains(child.getId()));}
         }
 
         return roleMenus;

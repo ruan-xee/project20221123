@@ -46,9 +46,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>  implements I
     }
 
     @Override
-    public Integer queryRoleIdByRole(String role) {
+    public Integer queryRoleIdByRole(String flag) {
         QueryWrapper<Role> wrapper = new QueryWrapper<>();
-        wrapper.eq("role", role);
+        wrapper.eq("flag", flag);
         Role one = roleMapper.selectOne(wrapper);
         return one.getId();
     }
