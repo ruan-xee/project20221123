@@ -17,4 +17,6 @@ public interface IRoleService extends IService<Role> {
     int delRoles(List<Integer> ids);
 
     int updateRole(Role role);
+
+    Integer queryRoleIdByRole(String role);
 }

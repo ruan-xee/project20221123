@@ -44,4 +44,12 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>  implements I
     public int updateRole(Role role) {
         return roleMapper.updateById(role);
     }
+
+    @Override
+    public Integer queryRoleIdByRole(String role) {
+        QueryWrapper<Role> wrapper = new QueryWrapper<>();
+        wrapper.eq("role", role);
+        Role one = roleMapper.selectOne(wrapper);
+        return one.getId();
+    }
 }

@@ -31,4 +31,13 @@ public interface Constants {
      */
     String DICT_TYPE_ICON = "icon";
 
+    /**
+     * 角色类型：管理员
+     */
+    String ROLE_ADMIN = "admin";
+    /**
+     * 角色类型：普通用户
+     */
+    String ROLE_USER = "user";
+
 }
