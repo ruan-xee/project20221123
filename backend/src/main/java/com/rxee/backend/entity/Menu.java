@@ -22,6 +22,7 @@ public class Menu implements Serializable{
     private String icon;
     private String description;
     private Integer pid;
+    private String pagePath;
     @TableField(exist = false)
     private List<Menu> children;
 }

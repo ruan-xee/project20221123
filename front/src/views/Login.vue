@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import {setRoutes} from "@/router";
+
 export default {
   name: "Login",
   data(){
@@ -31,12 +33,13 @@ export default {
         return;
       }
       this.request.post("/login/into",this.user).then(data=>{
-        console.log(data);
         if (data.code==="200"){
           localStorage.setItem("user", JSON.stringify(data.obj.user));//存储用户信息到浏览器
           localStorage.setItem("token", JSON.stringify(data.obj.token));//存储用户信息到浏览器
           localStorage.setItem("menus", JSON.stringify(data.obj.menus));//存储用户所能管理的菜单到浏览器
-          this.$router.push("/home");
+          //动态设置当前用户的路由
+          setRoutes();
+          this.$router.push("/");
           this.$message.success("欢迎回来！"+data.obj.user.nickname);
         } else {
           this.$message.error(data.msg);

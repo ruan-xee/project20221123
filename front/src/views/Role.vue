@@ -230,10 +230,10 @@ export default {
       //请求勾选项数据
       this.request.get("/r2m/"+roleId).then(res=>{
         if (res.code==="200"){
-          console.log(res.obj);
           this.tree.checks = res.obj;
         }})
       this.roleId = roleId;
+      console.log(this.tree.checks);
       this.flag.menuDialogVisible = true;
     },
     setRole2Menu(){

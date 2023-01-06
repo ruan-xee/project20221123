@@ -174,7 +174,6 @@ export default {
     },
     fnSaveUser(){
       this.request.post("/user/add", this.form).then(res=>{
-        console.log(res);
         if (res.code==="200"){
           this.$message.success("保存成功");
           this.flag.dialogFormVisible=false;
@@ -185,7 +184,6 @@ export default {
       })
     },
     fnEditItem(data){
-      console.log(data);
       this.form = {...data};
       // this.form.id = data.id;
       // this.form.username = data.username;
@@ -196,9 +194,7 @@ export default {
       this.flag.dialogFormVisible = true;
     },
     fnDelete(id){
-      console.log(id);
       this.request.delete("/user/del/"+id).then(res=>{
-        console.log(res);
         if (res.code==="200"){
           this.$message.success("删除成功");
           this.fnReset();
@@ -209,9 +205,7 @@ export default {
     },
     fnMultiDel(){
       let ids = this.tableSelect.map(v=>v.id)
-      console.log(ids);
       this.request.post("/user/del/batch",ids).then(res=>{
-        console.log(res);
         if (res.code==="200"){
           this.$message.success("批量删除成功");
           this.fnReset();
