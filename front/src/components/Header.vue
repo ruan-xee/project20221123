@@ -47,10 +47,11 @@ export default {
       this.$emit('collapse');
     },
     logout(){
-      this.$router.push("/login");
-      localStorage.removeItem("user");//清除缓存
-      localStorage.removeItem("token");//清除缓存
-      localStorage.removeItem("menus");//清除缓存
+      // this.$router.push("/login");
+      // localStorage.removeItem("user");//清除缓存
+      // localStorage.removeItem("token");//清除缓存
+      // localStorage.removeItem("menus");//清除缓存
+      this.$store.commit("logout");
       this.$message.success("退出成功！");
     },
   },

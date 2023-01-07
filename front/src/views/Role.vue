@@ -26,7 +26,7 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="info" @click="fnSelectMenu(scope.row.id)">分配菜单 <i class="el-icon-menu"></i></el-button>
+          <el-button type="info" @click="fnSelectMenu(scope.row)">分配菜单 <i class="el-icon-menu"></i></el-button>
           <el-button type="success" @click="fnEditItem(scope.row)">编辑 <i class="el-icon-edit"></i></el-button>
           <template>
             <el-popconfirm title="确定删除？" confirm-button-type="danger" @confirm="fnDelete(scope.row.id)" class="ml-5">
@@ -122,6 +122,7 @@ export default {
       },
       tableSelect:[],
       roleId: 0,
+      roleFlag: '',
     }
   },
   created() {
@@ -219,7 +220,9 @@ export default {
       this.tree.checks = [];
       this.flag.menuDialogVisible = false;
     },
-    fnSelectMenu(roleId){
+    fnSelectMenu(role){
+      this.roleId = role.id;
+      this.roleFlag = role.flag;
       //请求菜单数据
       this.request.get("/menu/query").then(res=>{
         if (res.code==="200"){
@@ -228,12 +231,20 @@ export default {
         }})
 
       //请求勾选项数据
-      this.request.get("/r2m/"+roleId).then(res=>{
+      this.request.get("/r2m/"+this.roleId).then(res=>{
         if (res.code==="200"){
           this.tree.checks = res.obj;
+
+          this.request.get("/menu/ids").then(res => {
+            const ids = res.obj;
+            ids.forEach(id=>{
+              if (!this.tree.checks.includes(id)){
+                this.$refs.tree.setChecked(id, false);
+              }
+            })
+          })
+
         }})
-      this.roleId = roleId;
-      console.log(this.tree.checks);
       this.flag.menuDialogVisible = true;
     },
     setRole2Menu(){
@@ -242,6 +253,9 @@ export default {
           this.$message.success("修改成功~");
           this.tree.checks = [];
           this.flag.menuDialogVisible = false;
+          if (this.roleFlag === 'admin') {
+            this.$store.commit("logout");
+          }
         } else {
           this.$message.error(res.msg);
         }

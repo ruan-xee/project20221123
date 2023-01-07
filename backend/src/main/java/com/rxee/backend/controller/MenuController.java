@@ -28,6 +28,11 @@ public class MenuController {
         //查询所有数据
         return ResultVo.success(menuService.queryMenus(menuQueryWrapper));
     }
+    
+    @GetMapping("/ids")
+    public ResultVo findAllIds(){
+        return ResultVo.success(menuService.list().stream().map(Menu::getId));
+    }
 
     @PostMapping("/queryById")
     public ResultVo queryById(Integer id){
