@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 import store from "@/store";
 import Login from "@/views/Login";
 import Register from "@/views/Register";
-import Person from "@/views/Person";
 
 Vue.use(VueRouter)
 
@@ -28,11 +27,6 @@ const routes = [
     component: Login,
   },
   {
-    path: '/person',
-    name: '个人信息',
-    component: Person,
-  },
-  {
     path: '/register',
     name: 'Register',
     component: Register,
@@ -46,7 +40,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   },
   {
-    path: '*',
+    path: '/404',
     name: '404',
     component: ()=>import('../views/404.vue')
   },
@@ -57,10 +51,21 @@ const router = new VueRouter({
   routes
 })
 
+//提供一个重置路由的方法
+export const resetRouter = ()=>{
+  router.matcher = new VueRouter({
+    mode: 'history',
+    base: process.env.BASE_URL,
+    routes
+  })
+}
+
 export const setRoutes = ()=>{
   const storeMenus = localStorage.getItem("menus");
   if (storeMenus){
-    const manageRoute = {path:'/', name: 'Manage', component: ()=>import('../views/Manage'), redirect:"/home", children:[]}
+    const manageRoute = {path:'/', name: 'Manage', component: ()=>import('../views/Manage'), redirect:"/home", children:[
+        {path:'person', name:'个人信息', component: ()=>import('../views/Person')}
+      ]}
     const menus = JSON.parse(storeMenus);
     menus.forEach(item=>{
       if (item.path) {
@@ -98,6 +103,18 @@ setRoutes();
 router.beforeEach((to, from, next)=>{
   localStorage.setItem("currentPathName", to.name);
   store.commit("setPath");
+
+
+  //未找到路由的情况
+  if (!to.matched.length){
+    const storeMenus = localStorage.getItem("menus");
+    if (storeMenus){
+      next("/404");
+    } else {
+      next("/login");
+    }
+  }
   next();
+
 })
 export default router

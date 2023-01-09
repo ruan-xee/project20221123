@@ -234,16 +234,17 @@ export default {
       this.request.get("/r2m/"+this.roleId).then(res=>{
         if (res.code==="200"){
           this.tree.checks = res.obj;
-
           this.request.get("/menu/ids").then(res => {
             const ids = res.obj;
             ids.forEach(id=>{
               if (!this.tree.checks.includes(id)){
+              //   this.$nextTick(
+              //       ()=>{this.$refs.tree.setChecked(id, false);}
+              // )
                 this.$refs.tree.setChecked(id, false);
               }
             })
           })
-
         }})
       this.flag.menuDialogVisible = true;
     },

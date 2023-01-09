@@ -39,10 +39,8 @@ public class Role2MenuServiceImpl extends ServiceImpl<Role2MenuMapper, Role2Menu
                 role2MenuMapper.insert(new Role2Menu(roleId, menu.getPid()));
                 tempPids.add(menu.getPid());
             }
-
             role2MenuMapper.insert(new Role2Menu(roleId, menuId));
         }
-
     }
 
     @Override
