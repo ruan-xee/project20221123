@@ -2,6 +2,7 @@ package com.rxee.backend.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.rxee.backend.entity.Role;
+import com.rxee.backend.vo.RoleVo;
 
 import java.util.List;
 
@@ -19,4 +20,5 @@ public interface IRoleService extends IService<Role> {
     int updateRole(Role role);
 
     Integer queryRoleIdByRole(String role);
+    List<RoleVo> getRoleList();
 }

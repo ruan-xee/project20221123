@@ -9,6 +9,7 @@ import com.rxee.backend.entity.User;
 import com.rxee.backend.exception.ServiceException;
 import com.rxee.backend.mapper.UserMapper;
 import com.rxee.backend.service.ILoginService;
+import com.rxee.backend.vo.RoleVo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -41,6 +42,7 @@ public class LoginServiceImpl extends ServiceImpl<UserMapper, User> implements I
         user.setUsername(registerDto.getUsername());
         user.setNickname(registerDto.getNickname());
         user.setPassword(registerDto.getPassword());
+        user.setRole(registerDto.getRole());
         return save(user);
     }
 }

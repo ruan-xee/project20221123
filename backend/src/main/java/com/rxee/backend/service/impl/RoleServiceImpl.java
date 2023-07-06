@@ -5,9 +5,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.rxee.backend.entity.Role;
 import com.rxee.backend.mapper.RoleMapper;
 import com.rxee.backend.service.IRoleService;
+import com.rxee.backend.vo.RoleVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -51,5 +53,17 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role>  implements I
         wrapper.eq("flag", flag);
         Role one = roleMapper.selectOne(wrapper);
         return one.getId();
+    }
+
+    @Override
+    public List<RoleVo> getRoleList() {
+        ArrayList<RoleVo> roleVos = new ArrayList<>();
+        for (Role role: roleMapper.selectList(new QueryWrapper<>())) {
+            RoleVo roleVo = new RoleVo();
+            roleVo.setName(role.getName());
+            roleVo.setFlag(role.getFlag());
+            roleVos.add(roleVo);
+        }
+        return roleVos;
     }
 }

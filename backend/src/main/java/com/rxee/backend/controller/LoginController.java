@@ -15,6 +15,7 @@ import com.rxee.backend.service.Role2MenuService;
 import com.rxee.backend.utils.TokenUtils;
 import com.rxee.backend.vo.LoginVo;
 import com.rxee.backend.vo.ResultVo;
+import com.rxee.backend.vo.RoleVo;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,6 +64,16 @@ public class LoginController {
             return ResultVo.success();
         } else {
             return ResultVo.fail(Constants.CODE_500, "系统错误，请重试！");
+        }
+    }
+
+    @PostMapping("/getRoleList")
+    public ResultVo getRoleList(){
+        List<RoleVo> roleList = roleService.getRoleList();
+        if (roleList.size() != 0) {
+            return ResultVo.success(roleList);
+        } else {
+            return ResultVo.fail(Constants.CODE_500, "获取角色失败，请重试！");
         }
     }
 
